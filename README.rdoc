@@ -34,7 +34,7 @@ add .status.yml to .gitignore
 
 When your branch has passed QA
 
-$: <tt>status -s pass</tt>
+$: <tt>status -q pass</tt>
 
 You can pass a different branch
 
@@ -42,7 +42,11 @@ $: <tt>status -b other_feature_branch</tt>
 
 or
 
-$: <tt>status -b other_feature_branch -s pass</tt>
+$: <tt>status -b other_feature_branch -q pass</tt>
+
+You can also pass based on the SHA
+
+$: <tt>status -s SHA -q pass</tt>
 
 help
 
