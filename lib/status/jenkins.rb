@@ -10,6 +10,7 @@ module Status
 
     def initialize(branch, sha=nil)
       @branch = branch.gsub(/\//, "_")
+      @branch = @branch + "-" + Status.repo
       @sha = sha
       @build = "lastBuild"
       @queued = false
