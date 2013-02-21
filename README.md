@@ -1,4 +1,4 @@
-# status [![Build Status](https://travis-ci.org/noths/update_status.png?branch=master)](https://travis-ci.org/dougdroper/update_status)
+[![Build Status](https://travis-ci.org/notonthehighstreet/status.png?branch=master)](https://travis-ci.org/notonthehighstreet/status)
 
 Updates pull requests on github using the statuses api (http://developer.github.com/v3/repos/statuses/), with latest build from Jenkins and QA status
 
