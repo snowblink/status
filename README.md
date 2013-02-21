@@ -17,12 +17,12 @@ This will generate a .status.yml file in the current directory, you will need to
 .status.yml:
 
 ```ruby
-  :username: Jenkins username
-  :password: Jenkins password
-  :token: Githubs API token (http://developer.github.com/v3/oauth/)
-  :owner: Owner of the repository eg. dougdroper
-  :repo: eg. status
+  :ci_username: Jenkins username
+  :ci_password: Jenkins password
   :ci_url: eg. http://ci.jenkins.com
+  :github_owner: Owner of the repository eg. dougdroper
+  :github_repo: Github repository name eg. status
+  :github_token: Githubs API token (http://developer.github.com/v3/oauth/ and https://help.github.com/articles/creating-an-oauth-token-for-command-line-use)
   :qa_required: true
 ```
 
