@@ -27,15 +27,15 @@ module Status
   end
 
   def token
-    Status.config.parsed[:token]
+    Status.config.parsed[:github_token]
   end
 
   def repo
-    Status.config.parsed[:repo]
+    Status.config.parsed[:github_repo]
   end
 
   def owner
-    Status.config.parsed[:owner]
+    Status.config.parsed[:github_owner]
   end
 
   def ci_url
@@ -43,11 +43,11 @@ module Status
   end
 
   def ci_user
-    Status.config.parsed[:username]
+    Status.config.parsed[:ci_username]
   end
 
   def ci_password
-    Status.config.parsed[:password]
+    Status.config.parsed[:ci_password]
   end
 
   def qa_required?

@@ -8,11 +8,13 @@ describe Status::Jenkins do
     Status.stub(:config => stub(:attrs => {}, :parsed => {}))
     Status::Request.any_instance.stub(:get)
     Status.stub(:system_warn)
+    @repo_name = "repo"
+    Status.stub(:repo => @repo_name)
   end
 
   context "#state" do
     it "changes slashes to underscores" do
-      Status::Jenkins.new("dr/feature").send(:path).should == "/job/dr_feature/lastBuild/api/json"
+      Status::Jenkins.new("dr/feature").send(:path).should == "/job/dr_feature-#@repo_name/lastBuild/api/json"
     end
 
     it "is success when ci result is success" do
@@ -44,7 +46,7 @@ describe Status::Jenkins do
   context "#target_url" do
     it "has the last build in the path as default" do
       Status::Request.stub(:new => stub(:get => {"builds" => []}))
-      Status::Jenkins.new("dr/feature", '481002a').target_url.should == "/job/dr_feature"
+      Status::Jenkins.new("dr/feature", '481002a').target_url.should == "/job/dr_feature-#@repo_name"
     end
 
     it "has the last build number in the path as when last build contains sha" do

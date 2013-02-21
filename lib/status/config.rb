@@ -12,12 +12,12 @@ module Status
     end
 
     def validate
-      validate_presence_of :owner
-      validate_presence_of :repo
-      validate_presence_of :token
+      validate_presence_of :github_owner
+      validate_presence_of :github_repo
+      validate_presence_of :github_token
       validate_presence_of :ci_url, "ci"
-      validate_presence_of :username, "ci"
-      validate_presence_of :password, "ci"
+      validate_presence_of :ci_username, "ci"
+      validate_presence_of :ci_password, "ci"
     end
 
     def bootstrap
@@ -44,12 +44,12 @@ module Status
       answer = gets
       if answer.chomp.downcase == "y"
         data = {
-          :username => "Jenkins username",
-          :password => "Jenkins password",
+          :ci_username => "Jenkins username",
+          :ci_password => "Jenkins password",
           :ci_url => "eg. http://ci.jenkins.com",
-          :owner => "eg. dougdroper",
-          :repo => "eg. status",
-          :token => "Githubs API token (http://developer.github.com/v3/oauth/)",
+          :github_owner => "Owner of github repository eg. dougdroper",
+          :github_repo => "Github repository name eg. status",
+          :github_token => "Githubs API token (http://developer.github.com/v3/oauth/ and https://help.github.com/articles/creating-an-oauth-token-for-command-line-use)",
           :qa_required => "true"
         }
         File.open(FILE, 'w') {|f| f.write(data.to_yaml)}
