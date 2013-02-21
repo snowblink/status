@@ -2,75 +2,100 @@
 
 module Status
   class Jenkins
-    attr_reader :target_url
-
-    def target_url
-      @build_url || "#{Status.ci_url}/job/#{@branch}"
-    end
 
     def initialize(branch, sha=nil)
       @branch = branch.gsub(/\//, "_")
       @branch = @branch + "-" + Status.repo
       @sha = sha
-      @build = "lastBuild"
-      @queued = false
-      @build_url = nil
-      find_build_for(sha)
-      warn "No build found for SHA #{@sha}" unless @build_url
     end
 
-    # The only states github's API acccepts are "success", "failure", "pending", and "error".
+    def target_url
+      build_url || "#{Status.ci_url}/job/#{@branch}"
+    end
 
     def state
-      return "success" if pass?
-      @status
+      status
     end
 
     def pass?
-      @status ||= get_ci_status
-      return false unless @status == "success"
-      true
-    end
-
-    def get_ci_status
-      response = Request.new(:ci).get(path)
-      return "pending" if response == "not found" || @queued || response["building"] == true || @build_url.nil?
-      return "failure" unless response["result"].downcase == "success"
-      "success"
-    end
-
-    def path
-      "/job/#{@branch}/#{@build}/api/json"
+      status == "success"
     end
 
     private
 
-    def find_build_for(sha)
-      return nil unless sha
-      response = Request.new(:ci).get("/job/#{@branch}/api/json?depth=1")
-      if response["queueItem"]
-        @queued = true
-        warn "Your build for SHA #{@sha} is in a queue."
-        @build_url = response["url"]
+    def path
+      "/job/#{@branch}/#{build}/api/json"
+    end
+
+    def status
+      @status ||= ci_status
+    end
+
+    def ci_status
+      return "pending" if any_pending_reasons?
+      return "failure" if result_is_failure?
+      "success"
+    end
+
+    def build
+      return last_build["number"] if last_build
+      "lastBuild"
+    end
+
+    def result_is_failure?
+      response["result"].downcase != "success"
+    end
+
+    def build_url
+      if last_build.nil?
         return
       end
-      response["builds"].sort{|a,b| b["number"].to_i <=> a["number"].to_i}.each do |build|
-        if build["actions"][1]["lastBuiltRevision"]["SHA1"] =~ /^#{@sha}/
-          @build = build["number"]
-          @build_url = build["url"]
-          return
-        else
-          build["changeSet"]["items"].each do |item|
-            if item["commitId"] =~ /^#{@sha}/
-              @build = build["number"]
-              @build_url = build["url"]
-              return
-            end
-          end
+      last_build["url"]
+    end
+
+    def last_build
+      @last_build ||= get_build_for_sha
+    end
+
+    def get_build_for_sha
+      return unless @sha
+      ci_response["builds"].each do |build|
+        return build if last_build_contails_sha?(build)
+        return build if build_is_in_change_set?(build)
+      end
+      nil
+    end
+
+    def any_pending_reasons?
+      response == "not found" || queued? || response["building"] == true
+    end
+
+    def response
+      @response ||= Request.new(:ci).get(path)
+    end
+
+    def ci_response
+      @ci_response ||= Request.new(:ci).get("/job/#{@branch}/api/json?depth=1")
+    end
+
+    def queued?
+      (!!ci_response["queueItem"]).tap do |queued|
+        if queued
+          Status.system_warn "Your build (#{@branch}) is in a queue."
         end
+      end
+    end
+
+    def last_build_contails_sha?(build)
+      return false if build["actions"].nil? || build["actions"][1].nil?
+      build["actions"][1]["lastBuiltRevision"]["SHA1"] =~ /^#{@sha}/
+    end
+
+    def build_is_in_change_set?(build)
+      return false if build["changeSet"].nil?
+      build["changeSet"]["items"].any? do |item|
+        item["commitId"] =~ /^#{@sha}/
       end
     end
   end
 end
-
-

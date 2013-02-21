@@ -50,4 +50,15 @@ module Status
     Status.config.parsed[:password]
   end
 
+  def qa_required?
+    Status.config.parsed[:qa_required].nil? ? true : Status.config.parsed[:qa_required]
+  end
+
+  def system_call(cmd)
+    `#{cmd}`
+  end
+
+  def system_warn(cmd)
+    Kernel.warn cmd
+  end
 end

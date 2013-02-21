@@ -7,7 +7,7 @@ module Status
     attr_reader :qa_status
 
     def initialize(options)
-      @qa_status = options[:state] || "pending"
+      @qa_status = options[:state] || qa_required
       @branch = options[:branch] || branch
       @sha = options[:sha] || nil
       @statuses = Status::Github::Statuses.new(@qa_status, @branch, @sha)
@@ -23,6 +23,10 @@ module Status
       pull.create_pull_request unless pull.pull_request_found?
       @statuses.request
       puts "Done."
+    end
+
+    def qa_required
+      Status.qa_required? ? "pending" : "pass"
     end
   end
 end

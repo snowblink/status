@@ -49,7 +49,9 @@ module Status
           :ci_url => "eg. http://ci.jenkins.com",
           :owner => "eg. dougdroper",
           :repo => "eg. status",
-          :token => "Githubs API token (http://developer.github.com/v3/oauth/)"}
+          :token => "Githubs API token (http://developer.github.com/v3/oauth/)",
+          :qa_required => "true"
+        }
         File.open(FILE, 'w') {|f| f.write(data.to_yaml)}
         puts "Please update #{FILE} and then run status"
         abort("exit")

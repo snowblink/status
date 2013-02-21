@@ -53,3 +53,4 @@ lib/.DS_Store
 #*.rbc
 
 .rspec
+Gemfile.lock

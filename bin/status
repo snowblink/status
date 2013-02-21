@@ -13,7 +13,7 @@ options ={
 }
 
 OptionParser.new do |o|
-  o.on("-q STATE", "--qa STATE", "Status of QA (default pending) [pending/pass]") {|s| options[:state] = s }
+  o.on("-q STATE", "--qa STATE", "Status of QA (default pending) [pending/pass/'n/a']") {|s| options[:state] = s }
   o.on("-b BRANCH", "--branch BRANCH", "Branch name") {|b| options[:branch] = b }
   o.on("-h", "--help", "Display this screen") {puts o; exit }
   o.on("-s SHA", "--sha SHA") {|sha| options[:sha]=sha || nil}
