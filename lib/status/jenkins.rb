@@ -37,6 +37,8 @@ module Status
       "success"
     end
 
+    # BUILD FOR ME
+
     def build
       return last_build["number"] if last_build
       "lastBuild"
