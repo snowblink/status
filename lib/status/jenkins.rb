@@ -81,7 +81,10 @@ module Status
     def queued?
       (!!ci_response["queueItem"]).tap do |queued|
         if queued
-          Status.system_warn "Your build (#{@branch}) is in a queue."
+          reasons = ci_response["queueItem"]["why"]
+          message = "Your build (#{@branch}) is in a queue."
+          message += "\n#{reasons}" if reasons
+          Status.system_warn(message)
         end
       end
     end
