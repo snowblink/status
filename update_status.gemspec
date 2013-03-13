@@ -5,25 +5,24 @@
 
 Gem::Specification.new do |s|
   s.name = "update_status"
-  s.version = "0.2.2"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Douglas Roper"]
-  s.date = "2012-12-18"
+  s.date = "2013-02-13"
   s.description = "Updates pull requests on github, with latest build from Jenkins and QA status"
   s.email = "douglasroper@notonthehighstreet.com"
   s.executables = ["status"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
     ".travis.yml",
     "Gemfile",
-    "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "bin/status",
@@ -38,13 +37,12 @@ Gem::Specification.new do |s|
     "spec/status/github/pull_request_spec.rb",
     "spec/status/github/statuses_spec.rb",
     "spec/status/jenkins_spec.rb",
-    "status.gemspec",
     "update_status.gemspec"
   ]
   s.homepage = "http://github.com/dougdroper/status"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.25"
   s.summary = "Status update for pull requests"
 
   if s.respond_to? :specification_version then
@@ -57,7 +55,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, [">= 1.2.1"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
     else
       s.add_dependency(%q<multi_json>, [">= 1.0.3"])
       s.add_dependency(%q<rest-client>, [">= 1.6.2"])
@@ -65,7 +62,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, [">= 1.2.1"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
-      s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
     s.add_dependency(%q<multi_json>, [">= 1.0.3"])
@@ -74,7 +70,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, [">= 1.2.1"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
-    s.add_dependency(%q<rcov>, [">= 0"])
   end
 end
 
